@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1f715f5-57e4-444e-b964-a041cf6f6ec6" name="Default Changelist" comment="123">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Exercises.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Exercises.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MAIN.py" beforeDir="false" afterPath="$PROJECT_DIR$/MAIN.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MAJOR_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/MAJOR_tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fsdfsdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/fsdfsdf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minor_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/minor_tests.py" afterDir="false" />
     </list>
     <list id="af8670ce-0428-45a1-819a-a2508a2206a9" name="321312" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,9 +46,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.minor_tests (1)">
+  <component name="RunManager" selected="Python.MAJOR_tests">
     <configuration name="MAIN (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Exercises" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -173,9 +177,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.minor_tests (1)" />
         <item itemvalue="Python.MAJOR_tests" />
         <item itemvalue="Python.MAIN (1)" />
+        <item itemvalue="Python.minor_tests (1)" />
         <item itemvalue="Python.minor_tests" />
         <item itemvalue="Python.MAIN" />
       </list>

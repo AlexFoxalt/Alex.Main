@@ -528,11 +528,21 @@ Output: A list of filenames."""
 from typing import List
 
 
-def sort_by_ext(files: List[str]) -> List[str]:
-    return list(sorted(files, key=lambda x: (x.split('.'[-1]), x.split('.'[-1])[1])))
-
-
-print(sort_by_ext(['1.cad', '1.bat', '1.aa', '2.bat']))
+def sort_by_ext(files: List[str]):
+    list_l = []
+    list_r = []
+    for item in files:
+        if item.rsplit('.', 1)[0] == '' or item.rsplit('.', 1)[-1] == '':
+            list_l.append(item)
+        else:
+            list_r.append(item)
+    print(f'---1--- \nL: {list_l},\nR: {list_r}')
+    list_l = sorted(list_l, key=lambda x: x[1])
+    list_r = sorted(list_r, key=lambda x: x[0])
+    list_r = sorted(list_r, key=lambda x: x[x.rfind('.'):])
+    list_l = sorted(list_l, key=lambda x: len(x))
+    print(f'---2--- \nL: {list_l},\nR: {list_r}')
+    return list_l + list_r
 
 
 """ -------------------------------------------------------------------------------------------------------------------
@@ -540,7 +550,6 @@ print(sort_by_ext(['1.cad', '1.bat', '1.aa', '2.bat']))
 #~
 
 Encode and Decode"""
-
 
 x_decode = {'1': 'A',
             '2': 'B',
@@ -573,7 +582,6 @@ x_decode = {'1': 'A',
 decode = lambda code: ''.join(x_decode[i] for i in code.split('.')).capitalize()
 x_encode = inv_map = {v: k for k, v in x_decode.items()}
 encode = lambda code: '.'.join([x_encode[i] for i in list(code.upper())])
-
 
 """ -------------------------------------------------------------------------------------------------------------------
 
