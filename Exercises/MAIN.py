@@ -511,7 +511,8 @@ def morse_decoder(code):
 
 #18
 
-You are given a list of files. You need to sort this list by the file extension. The files with the same extension should be sorted by name.
+You are given a list of files. You need to sort this list by the file extension. The files with the same extension 
+should be sorted by name. 
 
 Some possible cases:
 
@@ -585,6 +586,432 @@ encode = lambda code: '.'.join([x_encode[i] for i in list(code.upper())])
 
 """ -------------------------------------------------------------------------------------------------------------------
 
-#~
+#19
 
-Encode and Decode"""
+You have a text and a list of words. You need to check if the words in a list appear in the same order as in the given text.
+
+Cases you should expect while solving this challenge:
+
+a word from the list is not in the text - your function should return False;
+any word can appear more than once in a text - use only the first one;
+two words in the given list are the same - your function should return False;
+the condition is case sensitive, which means 'hi' and 'Hi' are two different words;
+the text includes only English letters and spaces.
+Input: Two arguments. The first one is a given text, the second is a list of words.
+
+Output: A bool."""
+
+
+def words_order(text: str, words: list) -> bool:
+    text = text.split(' ')
+    res_list = []
+    for x in text:
+        if x in words:
+            res_list.append(x)
+    if len(res_list) == 1 and len(res_list) != len(words) and not res_list:
+        return True
+    for x in words:
+        if x not in res_list:
+            return False
+    idx = 0
+    print(res_list)
+    print(words)
+    while idx < len(words) - 1:
+        if not res_list.index(words[idx]) < res_list.index(words[idx + 1]):
+            return False
+        else:
+            idx += 1
+    return True
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#20
+
+You are given a positive integer. Your function should calculate the product of the digits excluding any zeroes.
+
+For example: The number given is 123405. The result will be 1*2*3*4*5=120 (don't forget to exclude zeroes).
+
+Input: A positive integer.
+
+Output: The product of the digits as an integer."""
+
+
+def checkio2(number: int) -> int:
+    number = str(number).replace('0', '')
+    res = []
+    for x in number:
+        res.append(int(x))
+    result = 1
+    for x in res:
+        result = x * result
+    return result
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#21
+
+In this mission you need to create a password verification function.
+
+Those are the verification conditions:
+
+the length should be bigger than 6;
+should contain at least one digit.
+Input: A string.
+
+Output: A bool."""
+
+
+def is_acceptable_password(password: str) -> bool:
+    if len(password) <= 6:
+        return False
+    for x in password:
+        if x.isdigit():
+            return True
+    return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#23
+
+In this mission you need to create a password verification function.
+
+Those are the verification conditions:
+
+the length should be bigger than 6;
+should contain at least one digit, but cannot consist of just digits.
+Input: A string.
+
+Output: A bool."""
+
+
+def is_acceptable_password1(password: str) -> bool:
+    if len(password) <= 6 or password.isdigit():
+        return False
+    for x in password:
+        if x.isdigit():
+            return True
+    return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#24
+
+In this mission you need to create a password verification function.
+
+Those are the verification conditions:
+
+the length should be bigger than 6;
+should contain at least one digit, but it cannot consist of just digits;
+having numbers or containing just numbers does not apply to the password longer than 9.
+Input: A string.
+
+Output: A bool."""
+
+
+def is_acceptable_password2(password: str) -> bool:
+    if len(password) > 9:
+        return True
+    else:
+        if len(password) <= 6 or password.isdigit():
+            return False
+        for x in password:
+            if x.isdigit():
+                return True
+        return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#25
+
+In this mission you need to create a password verification function.
+
+Those are the verification conditions:
+
+the length should be bigger than 6;
+should contain at least one digit, but it cannot consist of just digits;
+having numbers or containing just numbers does not apply to the password longer than 9.
+a string should not contain the word "password" in any case.
+Input: A string.
+
+Output: A bool."""
+
+
+def is_acceptable_password3(password: str) -> bool:
+    if 'password' in password.lower():
+        return False
+    if len(password) > 9:
+        return True
+    else:
+        if len(password) <= 6 or password.isdigit():
+            return False
+        for x in password:
+            if x.isdigit():
+                return True
+        return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#26
+
+In this mission you need to create a password verification function.
+
+Those are the verification conditions:
+
+the length should be bigger than 6;
+should contain at least one digit, but it cannot consist of just digits;
+having numbers or containing just numbers does not apply to the password longer than 9.
+a string should not contain the word "password" in any case;
+should contain 3 different letters (or digits) even if it is longer than 10
+Input: A string.
+
+Output: A bool."""
+
+
+def is_acceptable_password4(password: str) -> bool:
+    check_list = []
+    for letter in password:
+        if letter not in check_list:
+            check_list.append(letter)
+    if len(check_list) < 3:
+        return False
+    if 'password' in password.lower():
+        return False
+    if len(password) > 9:
+        return True
+    else:
+        if len(password) <= 6 or password.isdigit():
+            return False
+        for x in password:
+            if x.isdigit():
+                return True
+        return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#27
+
+Check if a given string has all symbols in upper case. If the string is empty or doesn't have any letter in it - 
+function should return False. 
+
+Input: A string.
+
+Output: a boolean."""
+
+
+def is_all_upper(text: str) -> bool:
+    # your code here
+    return True if text.isupper() else False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#28
+
+Determine whether the sequence of elements items is ascending such that each of its elements is strictly larger than 
+(and not merely equal to) the preceding element. 
+
+Input: Iterable with ints.
+
+Output: Bool."""
+
+
+from typing import Iterable
+
+
+def is_ascending(items: Iterable[int]) -> bool:
+    return bool(sorted(set(items)) == items)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#29
+
+In mathematics and mathematical logic, Boolean algebra is a sub-area of algebra in which the values of the variables 
+are true or false, typically denoted with 1 or 0 respectively. Instead of elementary algebra where the values of the 
+variables are numbers and the main operations are addition and multiplication, the main operations of Boolean algebra 
+are the conjunction (denoted ∧), the disjunction (denoted ∨) and the negation (denoted ¬). 
+
+In this mission you should implement some boolean operations: - "conjunction" denoted x ∧ y, satisfies x ∧ y = 1 if x 
+= y = 1 and x ∧ y = 0 otherwise. - "disjunction" denoted x ∨ y, satisfies x ∨ y = 0 if x = y = 0 and x ∨ y = 1 
+otherwise. - "implication" (material implication) denoted x→y and can be described as ¬ x ∨ y. If x is true then the 
+value of x → y is taken to be that of y. But if x is false then the value of y can be ignored; however the operation 
+must return some truth value and there are only two choices, so the return value is the one that entails less, 
+namely true. - "exclusive" (exclusive or) denoted x ⊕ y and can be described as (x ∨ y)∧ ¬ (x ∧ y). It excludes the 
+possibility of both x and y. Defined in terms of arithmetic it is addition mod 2 where 1 + 1 = 0. - "equivalence" 
+denoted x ≡ y and can be described as ¬ (x ⊕ y). It's true just when x and y have the same value. Here you can see 
+the truth table for these operations: 
+
+ x | y | x∧y | x∨y | x→y | x⊕y | x≡y | -------------------------------------- 0 | 0 |  0  |  0  |  1  |  0  |  1  | 1 
+ | 0 |  0  |  1  |  0  |  1  |  0  | 0 | 1 |  0  |  1  |  1  |  1  |  0  | 1 | 1 |  1  |  1  |  1  |  0  |  1  | 
+ -------------------------------------- You are given two boolean values x and y as 1 or 0 and you are given an 
+ operation name as described earlier. You should calculate the value and return it as 1 or 0. 
+
+Input: Three arguments. X and Y as 0 or 1. An operation name as a string.
+
+Output: The result as 1 or 0."""
+
+
+OPERATION_NAMES = ("conjunction", "disjunction", "implication", "exclusive", "equivalence")
+
+
+def boolean(x, y, operation):
+    if operation == "conjunction":
+        return 1 if x == y == 1 else 0
+    elif operation == "disjunction":
+        return 0 if x == y == 0 else 1
+    elif operation == "implication":
+        return y if x == 1 else 1
+    elif operation == "exclusive":
+        return 1 if x != y else 0
+    elif operation == "equivalence":
+        return 1 if x == y else 0
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#30*hard*
+
+You are given a matrix of NxN (4≤N≤10). You should check if there is a sequence of 4 or more matching digits. The 
+sequence may be positioned horizontally, vertically or diagonally (NW-SE or NE-SW diagonals). 
+
+find-sequence
+Input: A matrix as a list of lists with integers.
+
+Output: Whether or not a sequence exists as a boolean."""
+
+
+from typing import List
+
+
+def checkio3(matrix: List[List[int]]) -> bool:
+    vertical = 0
+    idx_2 = 0
+    while idx_2 < len(matrix):
+        if vertical >= 3:
+            break
+        idx_1 = 0
+        while idx_1 < len(matrix) - 1:
+            if vertical >= 3:
+                break
+            if matrix[idx_1][idx_2] == matrix[idx_1 + 1][idx_2]:
+                idx_1 += 1
+                vertical += 1
+            else:
+                idx_1 += 1
+                vertical = 0
+        idx_2 += 1
+    if vertical >= 3:
+        return True
+    horizontal = 0
+    idx_1, idx_2 = 0, 0
+    while idx_1 < len(matrix):
+        if horizontal >= 3:
+            break
+        idx_2 = 0
+        while idx_2 < len(matrix) - 1:
+            if horizontal >= 3:
+                break
+            if matrix[idx_1][idx_2] == matrix[idx_1][idx_2 + 1]:
+                idx_2 += 1
+                horizontal += 1
+            else:
+                horizontal = 0
+                idx_2 += 1
+        idx_1 += 1
+    if horizontal >= 3:
+        return True
+    diagonal = 0
+    idx_down = 0
+    while idx_down < len(matrix) - 3:
+        if diagonal >= 3:
+            break
+        idx_left = 3
+        while idx_left < len(matrix):
+            if diagonal >= 3:
+                break
+            check = matrix[idx_left][idx_down]
+            nul = 1
+            while True:
+                if diagonal >= 3:
+                    break
+                if check == matrix[idx_left - nul][idx_down + nul]:
+                    nul += 1
+                    diagonal += 1
+                else:
+                    diagonal = 0
+                    idx_left += 1
+                    break
+        idx_down += 1
+    if diagonal >= 3:
+        return True
+    diagonal = 0
+    idx_down = 3
+    while idx_down < len(matrix):
+        if diagonal >= 3:
+            break
+        idx_left = 3
+        while idx_left < len(matrix):
+            if diagonal >= 3:
+                break
+            check = matrix[idx_left][idx_down]
+            nul = 1
+            while True:
+                if diagonal >= 3:
+                    break
+                if check == matrix[idx_left - nul][idx_down - nul]:
+                    nul += 1
+                    diagonal += 1
+                else:
+                    diagonal = 0
+                    idx_left += 1
+                    break
+        idx_down += 1
+    if diagonal >= 3:
+        return True
+    return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#31
+
+Maybe it's a cipher? Maybe, but we don’t know for sure.
+
+Maybe you can call it "homomorphism" ? I wish I knew this word before.
+
+You need to check that the 2 given strings are isometric. This means that a character from one string can become a 
+match for characters from another string. 
+
+One character from one string can correspond only to one character from another string. Two or more characters of one 
+string can correspond to one character of another string, but not vice versa. """
+
+
+def isometric_strings(a, b):
+    idx = 0
+    dict_res = {}
+    while idx < len(a):
+        print(a[idx])
+        if a[idx] not in dict_res:
+            dict_res.setdefault(a[idx], b[idx])
+            idx += 1
+        elif dict_res.get(a[idx]) == b[idx]:
+            dict_res.setdefault(a[idx] + '*copy*', b[idx])
+            idx += 1
+        else:
+            idx += 1
+    print(dict_res)
+    return bool(len(dict_res) == len(a))
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#32
+
+"""
