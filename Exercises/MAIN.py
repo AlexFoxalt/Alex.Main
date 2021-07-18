@@ -1014,4 +1014,299 @@ def isometric_strings(a, b):
 
 #32
 
-"""
+This is a mission to check the similarity of two triangles.
+
+You are given two lists as coordinates of vertices of each triangle.
+You have to return a bool. (The triangles are similar or not)"""
+
+
+def similar_triangles(cords1, cords2) -> bool:
+    s_triangle1 = (((cords1[0][0] - cords1[2][0]) * (cords1[1][1] - cords1[2][1])) - (
+            (cords1[1][0] - cords1[2][0]) * (cords1[0][1] - cords1[2][1])))
+    s_triangle2 = (((cords2[0][0] - cords2[2][0]) * (cords2[1][1] - cords2[2][1])) - (
+            (cords2[1][0] - cords2[2][0]) * (cords2[0][1] - cords2[2][1])))
+    if s_triangle1 < 0:
+        s_triangle1 = s_triangle1 * -1 / 2
+    else:
+        s_triangle1 = s_triangle1 / 2
+    if s_triangle2 < 0:
+        s_triangle2 = s_triangle2 * -1 / 2
+    else:
+        s_triangle2 = s_triangle2 / 2
+    sides_list1 = [((cords1[1][0] - cords1[0][0]) ** 2 + (cords1[1][1] - cords1[0][1]) ** 2) / 2,
+                   ((cords1[2][0] - cords1[1][0]) ** 2 + (cords1[2][1] - cords1[1][1]) ** 2) / 2,
+                   ((cords1[0][0] - cords1[2][0]) ** 2 + (cords1[0][1] - cords1[2][1]) ** 2) / 2]
+    sides_list2 = [((cords2[1][0] - cords2[0][0]) ** 2 + (cords2[1][1] - cords2[0][1]) ** 2) / 2,
+                   ((cords2[2][0] - cords2[1][0]) ** 2 + (cords2[2][1] - cords2[1][1]) ** 2) / 2,
+                   ((cords2[0][0] - cords2[2][0]) ** 2 + (cords2[0][1] - cords2[2][1]) ** 2) / 2]
+    sides_list1 = sorted(sides_list1)
+    sides_list2 = sorted(sides_list2)
+    k_sides1 = sides_list1[0] / sides_list2[0]
+    k_sides2 = sides_list1[1] / sides_list2[1]
+    k_sides3 = sides_list1[2] / sides_list2[2]
+    if k_sides1 != k_sides2 or k_sides2 != k_sides3 or k_sides3 != k_sides1:
+        return False
+    k_area = s_triangle1 / s_triangle2
+    return bool(k_sides1 == k_area)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#33
+
+Sometimes you find yourself in a situation when, among a huge number of files on your computer or in a separate 
+folder, you need to find files of a certain type. For example, images with the extension '.jpg' or documents with the 
+extension '.txt', or even files that have the word 'butterfly' in their name. Doing this manually can be 
+time-consuming. 'Matching' or patterns for searching files by a specific mask are just what you need for these sort 
+of challenges. This mission will help you understand how this works. 
+
+You need to find out if the given unix pattern matches the given filename.
+
+Let me show you what I mean by matching the filenames in the unix-shell. For example, * matches everything and *.txt 
+matches all of the files that have txt extension. Here is a small table that shows symbols that can be used in 
+patterns. 
+
+*	matches everything
+?	matches any single character
+Input: Two arguments. Both are strings.
+
+Output: Bool."""
+
+
+def unix_match(filename: str, pattern: str) -> bool:
+    if pattern == '*' or pattern == '**' or filename == pattern:
+        return True
+    filename_list = filename.split('.', 1)
+    pattern = pattern.rsplit('.')
+    print(filename_list, pattern)
+    if pattern[0] == '*' and pattern[1] == '*':
+        if len(filename_list) == 2:
+            return True
+        else:
+            return False
+
+    if pattern[0] == '*' and filename_list[1] == pattern[1] or pattern[0] == '**' and filename_list[1] == pattern[1]:
+        return True
+    if pattern[-1] == '*' and filename_list[0] == pattern[0] or pattern[-1] == '**' and filename_list[1] == pattern[1]:
+        return True
+    if '?' in pattern[0] or '?' in pattern[-1]:
+        counter = pattern[0].count('?')
+        counter_ext = pattern[-1].count('?')
+        idx = pattern[0].find('?')
+        filename_new = filename_list[0][idx:]
+        len_of_filename = len(filename_new)
+        len_of_ext = len(filename_list[-1])
+        if counter <= len(filename) and '*' in pattern[0]:
+            return True
+        if counter == len_of_filename or counter_ext == len_of_ext:
+            return True
+    return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#34
+
+In a given list the last element should become the first one. An empty list or list with only one element should stay 
+the same.
+
+Input: List.
+
+Output: Iterable."""
+
+
+def replace_last(line: list) -> list:
+    return list([line[-1], *line[0:-1]]) if line else line
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#35
+
+You are given an array with positive numbers and a number N. You should find the N-th power of the element in the 
+array with the index N. If N is outside of the array, then return -1. Don't forget that the first element has the 
+index 0. 
+
+Let's look at a few examples:
+- array = [1, 2, 3, 4] and N = 2, then the result is 3 2 == 9;
+- array = [1, 2, 3] and N = 3, but N is outside of the array, so the result is -1.
+
+Input: Two arguments. An array as a list of integers and a number as a integer.
+
+Output: The result as an integer."""
+
+
+def index_power(array: list, n: int) -> int:
+    return array[n] ** n if len(array) - 1 >= n else -1
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#36
+
+We have a List of booleans. Let's check if the majority of elements are true.
+
+Some cases worth mentioning: 1) an empty list should return false; 2) if trues and falses have an equal amount, 
+function should return false. 
+
+Input: A List of booleans.
+
+Output: A Boolean."""
+
+
+def is_majority(items: list) -> bool:
+    return bool(items.count(True) > items.count(False) if items else False)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#37
+
+With this mission I want to start a series of missions with light bulbs. They will help you understand the concept of 
+processes and evaluation of the processes’ performance. Instead of light bulbs, in real life, there may be equipment, 
+the effectiveness of which must be calculated, or workers who go to work, and their wages must be calculated. 
+
+The first mission is quite simple. There is a light bulb, which by default is off, and a button, by pressing which 
+the light bulb switches its state. This means that if the light bulb is off and the button is pressed, 
+the light turns on, and if you press it again, it turns off. 
+
+(Everything is easy. I am sure that if you’ve got to this mission, you should understand, but just in case I’m adding 
+a visual.) 
+
+The function input is an array of datetime objects - this is the date and time of pressing the button. Your task is 
+to determine how long the light bulb has been turned on. 
+
+Input: A list of datetime objects
+
+Output: A number of seconds as an integer."""
+
+
+from datetime import datetime
+from typing import List
+
+
+def sum_light(els: List[datetime]) -> int:
+    res = 0
+    for x in els[::2]:
+        res += (els[els.index(x) + 1] - x).total_seconds()
+    return int(res)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#38
+
+Not all of the elements are important. What you need to do here is to remove all of the elements after the given one 
+from list. 
+
+For illustration, we have an list [1, 2, 3, 4, 5] and we need to remove all the elements that go after 3 - which is 4 
+and 5. 
+
+We have two edge cases here: (1) if a cutting element cannot be found, then the list shouldn't be changed; (2) if the 
+list is empty, then it should remain empty. 
+
+Input: List and the border element.
+
+Output: Iterable (tuple, list, iterator ...)."""
+
+
+from typing import Iterable
+
+
+def remove_all_after(items: list, border: int) -> Iterable:
+    return list(items[:items.index(border) + 1]) if border in items else items
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#39
+
+This is the second mission in the lightbulb series. I will try to make each following task slightly more complex.
+
+You have already learned how to count the amount of time a light bulb has been on, or how long a room has been lit. 
+Now let's add one more parameter - the counting start time. 
+
+This means that the light continues to turn on and off as before. But now, as a result of the function, I want not 
+only to know how long there was light in the room, but how long the room was lit, starting from a certain moment. 
+
+One more argument is added – start_watching , and if it’s not passed, we count as in the previous version of the 
+program for the entire period. 
+
+Input: Two arguments and only the first one is required. The first one is a list of datetime objects and the second 
+one is a datetime object. 
+
+Output: A number of seconds as an integer."""
+
+
+from datetime import datetime
+from typing import List, Optional
+
+
+def sum_light1(els: List[datetime], start_watching: Optional[datetime] = None) -> int:
+    if start_watching:
+        if start_watching not in els:
+            els.append(start_watching)
+            els = sorted(els)
+        res = 0
+        els = els[els.index(start_watching):]
+        if els[0] == start_watching and len(els) == 1:
+            return 0
+        for x in els[::2]:
+            res += (els[els.index(x) + 1] - x).total_seconds()
+    else:
+        res = 0
+        for x in els[::2]:
+            res += (els[els.index(x) + 1] - x).total_seconds()
+    return int(res)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#40
+
+A median is a numerical value separating the upper half of a sorted array of numbers from the lower half. In a list 
+where there are an odd number of entities, the median is the number found in the middle of the array. If the array 
+contains an even number of entities, then there is no single middle value, instead the median becomes the average of 
+the two numbers found in the middle. For this mission, you are given a non-empty array of natural numbers (X). With 
+it, you must separate the upper half of the numbers from the lower half and find the median. 
+
+Input: An array as a list of integers.
+
+Output: The median as a float or an integer."""
+
+
+from typing import List
+
+
+def checkio5(data: List[int]) -> [int, float]:
+    data = sorted(data)
+    if len(data) % 2 == 1:
+        res = data[int(len(data) / 2)]
+    else:
+        res = float(data[int(len(data) / 2)] + data[int(len(data) / 2) - 1])
+        res = res / 2
+    return res
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#41
+
+In the third mission from the series about lightbulbs, I want to separately highlight the process and the period of 
+observation of this process. 
+
+In the previous mission, the start_watching parameter was introduced, and in this one - the end_watching parameter, 
+which tells the time when it’s necessary to end the observation. If it’s not passed, the mission works as in the 
+previous version, with no observation time limit. 
+
+One more update is that the amount of elements (button clicks) can be odd (previously there was a precondition, 
+that the amount of elements is always even). 
+
+example
+
+Input: Three arguments and only the first one is required. The first one is a list of datetime objects, the second 
+and the third ones are the datetime objects. 
+
+Output: A number of seconds as an integer."""
+
+
