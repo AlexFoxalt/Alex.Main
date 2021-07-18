@@ -1302,11 +1302,39 @@ previous version, with no observation time limit.
 One more update is that the amount of elements (button clicks) can be odd (previously there was a precondition, 
 that the amount of elements is always even). 
 
-example
-
 Input: Three arguments and only the first one is required. The first one is a list of datetime objects, the second 
 and the third ones are the datetime objects. 
 
 Output: A number of seconds as an integer."""
 
 
+from datetime import datetime
+from typing import List, Optional
+
+
+def sum_light4(els: List[datetime], start_watching: Optional[datetime] = None,
+              end_watching: Optional[datetime] = None) -> int:
+    if end_watching:
+        if end_watching in els:
+            els = els[:els.index(end_watching) + 1]
+        elif end_watching not in els:
+            els.append(end_watching)
+            els = sorted(els)
+            els = els[:els.index(end_watching) + 1]
+    try:
+        final = []
+        for a, b in zip(els[::2], els[1::2]):
+            if start_watching <= a:
+                final.append((b - a).total_seconds())
+            elif start_watching <= b:
+                final.append((b - start_watching).total_seconds())
+        return sum(final)
+    except:
+        return sum([(els[i] - els[i - 1]).total_seconds() for i in range(1, len(els), 2)])
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#42
+
+"""
