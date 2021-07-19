@@ -821,7 +821,6 @@ Input: Iterable with ints.
 
 Output: Bool."""
 
-
 from typing import Iterable
 
 
@@ -857,7 +856,6 @@ Input: Three arguments. X and Y as 0 or 1. An operation name as a string.
 
 Output: The result as 1 or 0."""
 
-
 OPERATION_NAMES = ("conjunction", "disjunction", "implication", "exclusive", "equivalence")
 
 
@@ -885,7 +883,6 @@ find-sequence
 Input: A matrix as a list of lists with integers.
 
 Output: Whether or not a sequence exists as a boolean."""
-
 
 from typing import List
 
@@ -1180,7 +1177,6 @@ Input: A list of datetime objects
 
 Output: A number of seconds as an integer."""
 
-
 from datetime import datetime
 from typing import List
 
@@ -1209,7 +1205,6 @@ Input: List and the border element.
 
 Output: Iterable (tuple, list, iterator ...)."""
 
-
 from typing import Iterable
 
 
@@ -1236,7 +1231,6 @@ Input: Two arguments and only the first one is required. The first one is a list
 one is a datetime object. 
 
 Output: A number of seconds as an integer."""
-
 
 from datetime import datetime
 from typing import List, Optional
@@ -1274,7 +1268,6 @@ Input: An array as a list of integers.
 
 Output: The median as a float or an integer."""
 
-
 from typing import List
 
 
@@ -1307,13 +1300,12 @@ and the third ones are the datetime objects.
 
 Output: A number of seconds as an integer."""
 
-
 from datetime import datetime
 from typing import List, Optional
 
 
 def sum_light4(els: List[datetime], start_watching: Optional[datetime] = None,
-              end_watching: Optional[datetime] = None) -> int:
+               end_watching: Optional[datetime] = None) -> int:
     if end_watching:
         if end_watching in els:
             els = els[:els.index(end_watching) + 1]
@@ -1336,5 +1328,261 @@ def sum_light4(els: List[datetime], start_watching: Optional[datetime] = None,
 """ -------------------------------------------------------------------------------------------------------------------
 
 #42
+
+Sort the numbers in an array. But the position of zeros should not be changed.
+
+Input: A List.
+
+Output: An Iterable (tuple, list, iterator ...)."""
+
+from typing import Iterable
+
+
+def except_zero(items: list) -> Iterable:
+    result = sorted([i for i in items if i != 0])
+    for inx, elem in enumerate(items):
+        if elem == 0:
+            result.insert(inx, 0)
+    return result
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#43
+
+Your mission is to sort the list by the frequency of numbers included in it. If a few numbers have an equal frequency 
+- they should be sorted according to their natural order. For example: [5, 2, 4, 1, 1, 1, 3] ==> [1, 1, 1, 2, 3, 4, 5] 
+
+Input: Chaotic list of numbers.
+
+Output: The list of numbers in which they are sorted by their frequency."""
+
+
+def frequency_sorting(numbers):
+    return list(sorted(numbers, key=lambda x: (numbers.count(x), -x), reverse=True))
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#44 #TODO
+
+In the 4th mission of the series more light bulbs are added.
+
+You still must determine how long the room will be lit during the observation period between start_watching and 
+end_watching. But now we have more than one light bulb. This means that in the light bulb switching array can now 
+also be passed the number of the light bulb, the button of which is being pressed. 
+
+Each element of the button clicking array can be either a datetime object (which means the time when the first button 
+was pressed) or a tuple of 2 elements (where the first elements is a datetime object, the time the button was 
+pressed), and the second is the number of the light bulb, the button of which is being pressed. 
+
+If the passed array will only consist of datetime elements, then we have only one light bulb and the function should 
+work the same way as in the previous mission of the series. 
+
+Input: Three arguments and only the first one is required. The first one is a list of datetime objects (instead of 
+datetime object there can be a tuple of two datetime and int), the second and the third ones are the datetime objects. 
+
+Output: A number of seconds as an integer."""
+
+from datetime import datetime
+from typing import List, Optional
+
+
+def sum_light5(els: List[datetime], start_watching: Optional[datetime] = None,
+               end_watching: Optional[datetime] = None):
+    bulb_0 = []
+    bulb_2 = []
+    bulb_3 = []
+    for bulb_number in els:
+        try:
+            if bulb_number[1] == 2:
+                bulb_2.append(bulb_number[0])
+            elif bulb_number[1] == 3:
+                bulb_3.append(bulb_number[0])
+        except:
+            bulb_0.append(bulb_number)
+    bulb_res = (bulb_0 + bulb_2 + bulb_3)
+    print(f'b0: {bulb_0}\nb2: {bulb_2}\nb3: {bulb_3}\nbRES: {bulb_res}')
+    counter = 0
+    for similar_timing in bulb_res:
+        counter += bulb_res.count(similar_timing)
+
+    return max(counting(bulb_0, start_watching, end_watching), counting(bulb_2, start_watching, end_watching), counting(
+        bulb_3, start_watching, end_watching)) if counter != len(bulb_res) else counting(bulb_0, start_watching,
+                                                                                         end_watching) + counting(
+        bulb_2, start_watching, end_watching) + counting(bulb_3, start_watching, end_watching)
+
+
+def counting(els: List[datetime], start_watching: Optional[datetime] = None,
+             end_watching: Optional[datetime] = None) -> int:
+    if end_watching:
+        if end_watching in els:
+            els = els[:els.index(end_watching) + 1]
+        elif end_watching not in els:
+            els.append(end_watching)
+            els = sorted(els)
+            els = els[:els.index(end_watching) + 1]
+    try:
+        final = []
+        for a, b in zip(els[::2], els[1::2]):
+            if start_watching <= a:
+                final.append((b - a).total_seconds())
+            elif start_watching <= b:
+                final.append((b - start_watching).total_seconds())
+        return sum(final)
+    except:
+        return sum([(els[i] - els[i - 1]).total_seconds() for i in range(1, len(els), 2)])
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#45
+
+Create and return a new iterable that contains the same elements as the argument iterable items, but with the 
+reversed order of the elements inside every maximal strictly ascending sublist. This function should not modify the 
+contents of the original iterable. 
+
+Input: Iterable
+
+Output: Iterable"""
+
+
+def reverse_ascending(items):
+    if not items:
+        return
+    sublist = [items[0]]
+    for i in range(1, len(items)):
+        if sublist[-1] < items[i]:
+            sublist.append(items[i])
+        else:
+            yield from reversed(sublist)
+            sublist = [items[i]]
+    yield from reversed(sublist)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#46
+
+A given list should be "compressed" in a way so, instead of two (or more) equal elements, staying one after another, 
+there is only one in the result Iterable (list, tuple, iterator ...). 
+
+Input: List.
+
+Output: "Compressed" Iterable (list, tuple, iterator ...)."""
+
+from typing import Iterable
+
+
+def compress(items: list) -> Iterable:
+    if not items:
+        return items
+    res = []
+    for x in range(len(items) - 1):
+        if items[x] != items[x + 1]:
+            res.append(items[x])
+    res.append(items[-1])
+    return res
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#47
+
+Given an iterable of ints , create and return a new iterable whose first two elements are the same as in items, 
+after which each element equals the median of the three elements in the original list ending in that position. 
+
+Wait...You don't know what the "median" is? Go check out the separate "Median" mission on CheckiO.
+
+Input: Iterable of ints.
+
+Output: Iterable of ints."""
+
+
+from typing import Iterable
+
+
+def median_three(els: Iterable[int]) -> Iterable[int]:
+    out = els[0:2]
+    for i in range(2, len(els)):
+        out.append(sorted(els[i - 2:i + 1])[1])
+    return out
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#48
+
+Nicola likes to categorize all sorts of things. He categorized a series of numbers and as the result of his efforts, 
+a simple sequence of numbers became a deeply-nested list. Sophia and Stephan don't really understand his organization 
+and need to figure out what it all means. They need your help to understand Nikolas crazy list. 
+
+There is a list which contains integers or other nested lists which may contain yet more lists and integers which 
+then… you get the idea. You should put all of the integer values into one flat list. The order should be as it was in 
+the original list with string representation from left to right. 
+
+We need to hide this program from Nikola by keeping it small and easy to hide. Because of this, your code should be 
+shorter than 140 characters (with whitespaces) . 
+
+Input data: A nested list with integers.
+
+Output data: The one-dimensional list with integers."""
+
+
+def flat_list(array):
+    if not array:
+        return array
+    if isinstance(array[0], list):
+        return flat_list(array[0]) + flat_list(array[1:])
+    return array[:1] + flat_list(array[1:])
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#49
+
+Nikola likes to categorize everything in sight. One time Stephan gave him a label maker for his birthday, 
+and the robots were peeling labels off of every surface in the ship for weeks. He has since categorized all the 
+reagents in his laboratory, books in the library and notes on the desk. But then he learned about python dictionaries 
+, and categorized all the possible configurations for Sophia’s drones. Now the files are organized in a deep nested 
+structure, but Sophia doesn’t like this. Let's help Sophia to flatten these dictionaries. 
+
+Python dictionaries are a convenient data type to store and process configurations. They allow you to store data by 
+keys to create nested structures. You are given a dictionary where the keys are strings and the values are strings or 
+dictionaries. The goal is flatten the dictionary, but save the structures in the keys. The result should be the a 
+dictionary without the nested dictionaries. The keys should contain paths that contain the parent keys from the 
+original dictionary. The keys in the path are separated by a "/". If a value is an empty dictionary, then it should 
+be replaced by an empty string (""). Let's look at an example: 
+
+Input: An original dictionary as a dict.
+
+Output: The flattened dictionary as a dict.
+
+Precondition:
+Keys in a dictionary are non-empty strings.
+Values in a dictionary are strings or dicts.
+root_dictionary != {}"""
+
+
+def flatten(dictionary):
+    while sum(map(lambda x: type(x) == dict, dictionary.values())):
+        for idx, inner_d in enumerate(dictionary.copy().items()):
+            if idx == 0:
+                dictionary = {}
+            if type(inner_d[1]) == dict:
+                if inner_d[1] == {}:
+                    inner_d = [(inner_d[0], '')]
+                else:
+                    inner_d = [(inner_d[0] + '/' + in_d[0], in_d[1]) for in_d in inner_d[1].items()]
+                for i in inner_d:
+                    dictionary[i[0]] = i[1]
+            else:
+                dictionary[inner_d[0]] = inner_d[1]
+    return dictionary
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#50
 
 """
