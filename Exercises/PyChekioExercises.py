@@ -390,7 +390,7 @@ Input: Array.
 Output: Array or two arrays."""
 
 
-def split_list(items: list) -> list:
+def split_list(items: list):
     if len(items) % 2 == 0:
         list1 = items[:int(len(items) / 2)]
         list2 = items[int(len(items) / 2):]
@@ -1498,7 +1498,6 @@ Input: Iterable of ints.
 
 Output: Iterable of ints."""
 
-
 from typing import Iterable
 
 
@@ -1584,5 +1583,351 @@ def flatten(dictionary):
 """ -------------------------------------------------------------------------------------------------------------------
 
 #50
+
+Let's try some sorting. Here is an array with the specific rules.
+
+The array (a list) has various numbers. You should sort it, but sort it by absolute value in ascending order. For 
+example, the sequence (-20, -5, 10, 15) will be sorted like so: (-5, 10, 15, -20). Your function should return the 
+sorted list or tuple. 
+
+Precondition: The numbers in the array are unique by their absolute values.
+
+Input: An array of numbers , a tuple..
+
+Output: The list or tuple (but not a generator) sorted by absolute values in ascending order.
+
+Addition: The results of your function will be shown as a list in the tests explanation panel."""
+
+
+def checkio6(values: list) -> list:
+    positive_list = []
+    negative_list = []
+    for x in values:
+        if x < 0:
+            negative_list.append(x * -1)
+        else:
+            positive_list.append(x)
+    res_list = sorted(negative_list + positive_list)
+    for x in range(len(res_list)):
+        if res_list[x] * -1 in values:
+            res_list[x] *= -1
+    return res_list
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#51
+
+In a given word you need to check if one symbol goes only right after another.
+
+Cases you should expect while solving this challenge:
+
+If more than one symbol is in the list you should always count the first one one of the symbols are not in the given 
+word - your function should return False; any symbol appears in a word more than once - use only the first one; two 
+symbols are the same - your function should return False; the condition is case sensitive, which means 'a' and 'A' 
+are two different symbols. Input: Three arguments. The first one is a given string, second is a symbol that should go 
+first, and the third is a symbold that should go after the first one. 
+
+Output: A bool."""
+
+
+def goes_after(word: str, first: str, second: str) -> bool:
+    idx1 = word.find(first)
+    idx2 = word.find(second)
+    if idx1 != -1 and idx2 != -1:
+        if idx1 + 1 == idx2:
+            return True
+    return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#52
+
+Nicola has solved this puzzle (and I am sure that you will do equally well). To be prepared for more such puzzles, 
+Nicola wants to invent a method to search for words inside poetry. You can help him create a function to search for 
+certain words. 
+
+You are given a rhyme (a multiline string), in which lines are separated by "newline". Casing does not matter 
+for your search, but whitespaces should be removed before your search. You should find the word inside the rhyme in 
+the horizontal (from left to right) or vertical (from up to down) lines. For this you need envision the rhyme as a 
+matrix (2D array). Find the coordinates of the word in the cut rhyme (without whitespaces). 
+
+The result must be represented as a list -- [row_start,column_start,row_end,column_end] , where
+
+row_start is the line number for the first letter of the word.
+column_start is the column number for the first letter of the word.
+row_end is the line number for the last letter of the word.
+column_end is the column number for the last letter of the word.
+Counting of the rows and columns start from 1.
+rhymes
+Input: Two arguments. A rhyme as a string and a word as a string (lowercase).
+
+Output: The coordinates of the word."""
+
+
+def checkio7(text, word):
+    text = text.replace(' ', '').lower()
+    text = text.split('\n')
+    row_start = 0
+    column_start = 0
+    row_end = 0
+    column_end = 0
+    for string in text:
+        word_index = string.find(word)
+        if word_index != -1:
+            column_start = word_index + 1
+            column_end = word_index + len(word)
+            row_start = row_end = text.index(string) + 1
+            return row_start, column_start, row_end, column_end
+    word = list(word)
+    num_list = []
+    for string in text:
+        num_list.extend([text.index(string) + 1, x + 1, y] for x, y in enumerate(string))
+    result = []
+    for x in num_list:
+        if x[2] in word:
+            result.append(x)
+    advanced_num_list = sorted(result, key=lambda x: x[1])
+    result = []
+    word_index = 0
+    for x in range(len(advanced_num_list)):
+        if advanced_num_list[x][2] == word[word_index]:
+            result.extend(advanced_num_list[x])
+            word_index += 1
+            if word_index == len(word):
+                return [result[0], result[4], result[-3], result[-2]]
+        else:
+            word_index = 0
+            result.clear()
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#53
+
+You prefer a good old 12-hour time format. But the modern world we live in would rather use the 24-hour format and 
+you see it everywhere. Your task is to convert the time from the 24-h format into 12-h format by following the next 
+rules: - the output format should be 'hh:mm a.m.' (for hours before midday) or 'hh:mm p.m.' (for hours after midday) 
+- if hours is less than 10 - don't write a '0' before it. For example: '9:05 a.m.' Here you can find some useful 
+information about the 12-hour format . 
+
+Input: Time in a 24-hour format (as a string).
+
+Output: Time in a 12-hour format (as a string)."""
+
+
+def time_converter(time):
+    if time == '00:00':
+        return '12:00 a.m.'
+    time = time.split(':')
+    hours = int(time[0])
+    minutes = time[1]
+    if hours >= 12:
+        if hours >= 13:
+            return ':'.join([str(hours - 12), minutes]) + ' p.m.'
+        return ':'.join([str(hours), minutes]) + ' p.m.'
+    else:
+        return ':'.join([str(hours), minutes]) + ' a.m.'
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#54
+
+You have a list. Each value from that list can be either a string or an integer. Your task here is to return two 
+values. The first one is a concatenation of all strings from the given list. The second one is a sum of all integers 
+from the given list. 
+
+Input: An array of strings ans integers
+
+Output: A list or tuple"""
+
+
+from typing import Tuple
+
+
+def sum_by_types(items: list) -> Tuple[str, int]:
+    res_str = ''
+    res_int = 0
+    for x in items:
+        if isinstance(x, int):
+            res_int += x
+        elif isinstance(x, str):
+            res_str += x
+    return res_str, res_int
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#55
+
+Числа Фибоначчи. Функция которая выдаст число по порядковому номеру"""
+
+
+def fibonacce(arg):
+    numbers = [1, 1]
+    counter = 2
+    while counter < arg:
+        numbers.append(numbers[-1] + numbers[-2])
+        counter += 1
+    return numbers[-1]
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#56
+
+The bird converts words by two rules:
+- after each consonant letter the bird appends a random vowel letter (l ⇒ la or le);
+- after each vowel letter the bird appends two of the same letter (a ⇒ aaa);
+Vowels letters == "aeiouy".
+
+You are given an ornithological phrase as several words which are separated by white-spaces (each pair of words by 
+one whitespace). The bird does not know how to punctuate its phrases and only speaks words as letters. All words are 
+given in lowercase. You should translate this phrase from the bird language to something more understandable. 
+
+Input: A bird phrase as a string.
+
+Output: The translation as a string."""
+
+
+def translate(text: str):
+    vowels = "aeiouy"
+    index = 0
+    res = ''
+    while index < len(text) - 1:
+        print(text[index])
+        if text[index] in vowels:
+            res += text[index]
+            index += 3
+        elif text[index] == ' ':
+            res += text[index]
+            index += 1
+        else:
+            res += text[index]
+            index += 2
+    return res
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#57
+
+Let's continue examining words. You are given two strings with words separated by commas. Try to find what is common 
+between these strings. The words in the same string don't repeat. 
+
+Your function should find all of the words that appear in both strings. The result must be represented as a string of 
+words separated by commas in alphabetic order. 
+
+Input: Two arguments as strings.
+
+Output: The common words as a string."""
+
+
+def checkio8(line1: str, line2: str) -> str:
+    list1 = line1.split(',')
+    list2 = line2.split(',')
+    res = []
+    for x in list1:
+        if x in list2:
+            res.append(x)
+    return ','.join(sorted(res))
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#58
+
+You’ve received a letter from a friend whom you haven't seen or heard from for a while. In this letter he gives you 
+instructions on how to find a hidden treasure. 
+
+In this mission you should follow a given list of instructions which will get you to a certain point on the map. A 
+list of instructions is a string, each letter of this string points you in the direction of your next step. 
+
+The letter "f" - tells you to move forward, "b" - backward, "l" - left, and "r" - right.
+
+It means that if the list of your instructions is "fflff" then you should move forward two times, make one step to 
+the left and then again move two times forward. 
+
+Now, let's imagine that you are in the position (0,0). If you move forward your position will change to (0, 
+1). If you move again it will be (0, 2). If your next step is to the left then your position will become (-1, 
+2). After the next two steps forward your coordinates will be (-1, 4) 
+
+Your goal is to find your final coordinates. Like in our case they are (-1, 4)
+
+Input: A string.
+
+Output: A tuple (or list) of two ints"""
+
+
+from typing import Tuple
+
+
+def follow(instructions: str) -> Tuple[int, int]:
+    x = 0
+    y = 0
+    for letter in instructions:
+        if letter == 'f':
+            y += 1
+        elif letter == 'b':
+            y -= 1
+        elif letter == 'l':
+            x -= 1
+        elif letter == 'r':
+            x += 1
+    return (x, y)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#59
+
+A pangram (Greek:παν γράμμα, pan gramma, "every letter") or holoalphabetic sentence for a given alphabet is a 
+sentence using every letter of the alphabet at least once. Perhaps you are familiar with the well known pangram "The 
+quick brown fox jumps over the lazy dog". 
+
+For this mission, we will use the latin alphabet (A-Z). You are given a text with latin letters and punctuation 
+symbols. You need to check if the sentence is a pangram or not. Case does not matter. 
+
+Input: A text as a string.
+
+Output: Whether the sentence is a pangram or not as a boolean."""
+
+
+def check_pangram(text):
+    alphabet = 'ABCDEFGHIKLMNOPQRSTVXYZ'
+    for x in alphabet:
+        if x not in text.upper():
+            return False
+    return True
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#60
+
+Joe Palooka has fat fingers, so he always hits the “Caps Lock” key whenever he actually intends to hit the key “a” by 
+itself. (When Joe tries to type in some accented version of “a” that needs more keystrokes to conjure the accents, 
+he is more careful in the presence of such raffinated characters ([Shift] + [Char]) and will press the keys 
+correctly.) Compute and return the result of having Joe type in the given text. The “Caps Lock” key affects only the 
+letter keys from “a” to “z” , and has no effect on the other keys or characters. “Caps Lock” key is assumed to be 
+initially off. 
+
+Input: A string. The typed text.
+
+Output: A string. The showed text after being typed."""
+
+
+def caps_lock(text: str) -> str:
+    text = text.split('a')
+    for x in range(1,len(text),2):
+        text[x] = text[x].upper()
+    return ''.join(text)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#61
 
 """
