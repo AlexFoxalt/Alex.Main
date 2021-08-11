@@ -1930,4 +1930,369 @@ def caps_lock(text: str) -> str:
 
 #61
 
-"""
+You are given a text, which contains different English letters and punctuation symbols. You should find the most 
+frequent letter in the text. The letter returned must be in lower case. While checking for the most wanted letter, 
+casing does not matter, so for the purpose of your search, "A" == "a". Make sure you do not count punctuation 
+symbols, digits and whitespaces, only letters. 
+
+If you have two or more letters with the same frequency , then return the letter which comes first in the Latin 
+alphabet. For example -- "one" contains "o", "n", "e" only once for each, thus we choose "e". 
+
+Input: A text for analysis as a string.
+
+Output: The most frequent letter in lower case as a string."""
+
+
+def checkio9(text: str) -> str:
+    list_of_letters = [['a', 0],
+                       ['b', 0],
+                       ['c', 0],
+                       ['d', 0],
+                       ['e', 0],
+                       ['f', 0],
+                       ['g', 0],
+                       ['h', 0],
+                       ['i', 0],
+                       ['j', 0],
+                       ['k', 0],
+                       ['l', 0],
+                       ['m', 0],
+                       ['n', 0],
+                       ['o', 0],
+                       ['p', 0],
+                       ['q', 0],
+                       ['r', 0],
+                       ['s', 0],
+                       ['t', 0],
+                       ['u', 0],
+                       ['v', 0],
+                       ['w', 0],
+                       ['x', 0],
+                       ['y', 0],
+                       ['z', 0]]
+    for letter in list_of_letters:
+        if letter[0] in text.lower():
+            letter[1] = text.lower().count(letter[0])
+    return str(sorted(list_of_letters, key=lambda x: x[1], reverse=True)[0][0])
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#62
+
+Our robots are always working to improve their linguistic skills. For this mission, they research the Latin alphabet 
+and its applications. 
+
+The alphabet contains both vowel and consonant letters (yes, we divide the letters).
+Vowels -- A E I O U Y
+Consonants -- B C D F G H J K L M N P Q R S T V W X Z
+
+You are given a block of text with different words. These words are separated by whitespaces and punctuation marks. 
+Numbers are not considered as words in this mission (a mix of letters and digits is not a word either). You should 
+count the number of words (striped words) where the vowels with consonants are alternating; words that you count 
+cannot have two consecutive vowels or consonants. The words consisting of a single letter are not striped -- don't 
+count those. Casing is not significant for this mission. 
+
+Input: A text as a string (unicode)
+
+Output: A quantity of striped words as an integer."""
+
+
+def checkio10(line: str):
+    vowels = ['A', 'E', 'I', 'O', 'U', 'Y', ' ']
+    consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Z', ' ']
+    line = line.replace('.', ' ').replace(',', ' ').replace('?', ' ').replace('!', ' ')
+    line = line.upper().split()
+    res_list = []
+    for word in line:
+        if len(word) < 2 or not word.isalpha():
+            res_list.append(word)
+            continue
+        for letter_idx in range(len(word) - 1):
+            if word[letter_idx] in vowels and word[letter_idx + 1] not in consonants or \
+                    word[letter_idx] in consonants and word[letter_idx + 1] not in vowels:
+                res_list.append(word)
+                break
+    return len(line) - len(res_list)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#63
+
+Your mission is to convert the name of a function (a string) from CamelCase ("MyFunctionName") into the Python format 
+("my_function_name") where all chars are in lowercase and all words are concatenated with an intervening underscore 
+symbol "_". 
+
+Input: A function name as a CamelCase string.
+
+Output: The same string, but in under_score."""
+
+
+def from_camel_case(name: str) -> str:
+    name = list(name)
+    for x in range(len(name) - 1):
+        if name[x + 1].isupper():
+            name[x] += '_'
+    return ''.join(name).lower()
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#64
+
+Your mission is to convert the name of a function (a string) from the Python format (for example "my_function_name") 
+into CamelCase ("MyFunctionName"), where the first char of every word is in uppercase and all words are concatenated 
+without any intervening characters. 
+
+Input: A function name as a string.
+
+Output: The same string, but in CamelCase."""
+
+
+def to_camel_case(name: str) -> str:
+    name = list(name)
+    for x in range(len(name) - 1):
+        if x == 0:
+            name[x] = name[x].upper()
+        if name[x] == '_':
+            name[x+1] = name[x+1].upper()
+            name[x] = name[x].replace('_', '')
+    return ''.join(name)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#65
+
+Ever tried to send a secret message to someone without using the postal service? You could use newspapers to tell 
+your secret. Even if someone finds your message, it's easy to brush them off as paranoid and as a conspiracy 
+theorist. One of the simplest ways to hide a secret message is to use capital letters. Let's find some of these 
+secret messages. 
+
+You are given a chunk of text. Gather all capital letters in one word in the order that they appear in the text.
+
+For example: text = " H ow are you? E h, ok. L ow or L ower? O hhh.", if we collect all of the capital letters, 
+we get the message "HELLO". 
+
+Input: A text as a string (unicode).
+
+Output: The secret message as a string or an empty string."""
+
+
+def find_message(message: str) -> str:
+    res = ''
+    for x in message:
+        if x.isupper():
+            res += x
+    return res
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#66 !NOT MINE!
+
+Before solving this mission, you can try to solve the "Brackets" mission.
+
+Your task is to restore the balance of open and closed brackets by removing the unnecessary ones, while trying to use 
+the minimum number of deletions. 
+
+Only 3 types of brackets (), [] and {} can be used in the given string.
+
+Only a parenthesis can close a parenthesis. That is, in this expression "(}" - the brackets aren’t balanced. In an 
+empty string, i.e., in a string that doesn’t contain any brackets - the brackets are balanced, but removing all of 
+the brackets isn’t considered to be an optimal solution. 
+
+If there are more than one correct answer, then you should choose the one where the character that can be removed is 
+closer to the beginning. For example, in this case "[(])", the correct answer will be "()", since the removable 
+brackets are closer to the beginning of the line. 
+
+Input: A string of characters () {} []
+
+Output: A string of characters () {} []"""
+
+
+def remove_brackets(line):
+    m, match, count = [], [], {i: line.count(i) for i in '[{()}]'}
+    for i, b in enumerate(line):
+        if b == '(' and count[')'] >= m.count(b) + 1: m.extend([b, i])
+        elif b in '[{' and count[chr(ord(b)+2)] >= m.count(b) + 1: m.extend([b, i])
+        elif b in ")}]" and m and abs(ord(b) - ord(m[-2])) <= 2: match.extend([(i, b), (m.pop(), m.pop())])
+    return ''.join([i for _, i in sorted(match)])
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#66
+
+Have you ever heard of such markup language as YAML ? It’s a friendly data serialization format. In fact it’s so 
+friendly that both people and programs can read it quite well. You can play around with the standard by following 
+this link . 
+
+YAML is a text, and you need to convert it into an object. But I’m not asking you to implement the entire YAML 
+standard, we’ll implement it step by step. 
+
+The first step is the key-value conversion. The key can be any string consisting of Latin letters and numbers. The 
+value can be a single-line string (which consists of spaces, Latin letters and numbers) or a number (int). 
+
+I’ll show some examples:
+
+name: Alex
+age: 12
+Converted into an object.
+
+{ 
+  "name": "Alex",
+  "age": 12
+}
+ 
+Note that the number automatically gets type int
+
+Another example shows that the string may contain spaces.
+
+name: Alex Fox
+age: 12
+
+class: 12b
+Will be converted into the next object.
+
+{ "age": 12, "name": "Alex Fox", "class": "12b" } Pay attention to a few things. Between the string "age" and the 
+string "class" there is an empty string that doesn’t interfere with parsing. The class starts with numbers, 
+but has letters, which means it cannot be converted to numbers, so its type remains a string (str). 
+
+Input: A format string.
+
+Output: An object."""
+
+
+def yaml(a):
+    res_dict = {}
+    a = a.split('\n')
+    for x in a:
+        if not x:
+            continue
+        x = x.split(': ')
+        try:
+            res_dict.setdefault(x[0], int(x[1]))
+        except:
+            res_dict.setdefault(x[0], x[1])
+    return res_dict
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#67 
+
+This is the second task on parsing YAML. It represents the next step where parsing gets more complicated. The 
+data types, such as null and bool, are being added, and besides that, you’re getting the ability to use quotes in 
+strings. 
+
+Here are some of the examples:
+
+name: "Bob Dylan"
+children: 6
+{
+  "name": "Bob Dylan", 
+  "children": 6
+}
+As you can see, the string can be put in quotes. It can be both double and single quotes.
+
+name: "Bob Dylan"
+children: 6
+alive: false
+{
+  "name": "Bob Dylan", 
+  "alive": False, 
+  "children": 6
+}
+true and false are the keywords defining the boolean type.
+
+name: "Bob Dylan"
+children: 6
+coding:
+{
+  "coding": None, 
+  "name": "Bob Dylan", 
+  "children": 6
+}
+If no value is specified, it becomes undefined. There also is a keyword for this - null.
+
+Input: A format string.
+
+Output: An object."""
+
+
+def yaml1(a):
+    res_dict = {}
+    a = a.replace('"', '').replace('\\', '"')
+    a = a.split('\n')
+    for x in a:
+        print(x)
+        if not x:
+            continue
+        x = x.split(': ')
+        if len(x) < 2:
+            x[0] = x[0].replace(':', '')
+            res_dict.setdefault(x[0], None)
+        elif not x[1].lower() or x[1].lower() == 'null':
+            res_dict.setdefault(x[0], None)
+        elif 'null' in x[1].lower():
+            res_dict.setdefault(x[0], 'null')
+        elif x[1].lower() == 'true':
+            res_dict.setdefault(x[0], True)
+        elif x[1].lower() == 'false':
+            res_dict.setdefault(x[0], False)
+        else:
+            try:
+                res_dict.setdefault(x[0], int(x[1]))
+            except:
+                res_dict.setdefault(x[0], x[1])
+    return res_dict
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#68
+
+For language training our Robots want to learn about suffixes.
+
+In this task, you are given a set of words in lower case. Check whether there is a pair of words, such that one word 
+is the end of another (a suffix of another). For example: {"hi", "hello", "lo"} -- "lo" is the end of "hello", 
+so the result is True. 
+
+Input: Words as a set of strings.
+
+Output: True or False, as a boolean."""
+
+
+def checkio11(words_set):
+    words_set = list(words_set)
+    for x in range(len(words_set)):
+        idx = 0
+        while idx < len(words_set):
+            print(words_set[x], words_set[idx])
+            if words_set[x].endswith(words_set[idx]) and words_set[x] != words_set[idx]:
+                print(words_set[x], words_set[idx])
+                return True
+            else:
+                idx += 1
+    return False
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#69
+
+As the input you get the flight schedule as an array, each element of which is the price of a direct flight between 2 
+cities (an array of 3 elements - 2 city names as a string, and a flight price). 
+
+Planes fly in both directions and the price in both directions is the same. There is a possibility that there are no 
+direct flights between cities. 
+
+Find the price of the cheapest flight between cities that are given as the 2nd and 3rd arguments.
+
+Input: 3 arguments: the flight schedule as an array of arrays, city of departure and destination city.
+
+Output: Int. The best price."""
+
+
