@@ -2281,7 +2281,7 @@ def checkio11(words_set):
 
 """ -------------------------------------------------------------------------------------------------------------------
 
-#69
+#69 #NOT MINE
 
 As the input you get the flight schedule as an array, each element of which is the price of a direct flight between 2 
 cities (an array of 3 elements - 2 city names as a string, and a flight price). 
@@ -2296,3 +2296,76 @@ Input: 3 arguments: the flight schedule as an array of arrays, city of departure
 Output: Int. The best price."""
 
 
+from typing import List
+
+
+def cheapest_flight(costs: List, a: str, b: str) -> int:
+    res = []
+    for i, cost in enumerate(costs):
+        match = cost[:-1][cost.index(a) - 1] if a in cost else ''
+        if match == b:
+            res += [cost[2]]
+        ret = cheapest_flight(costs[:i] + costs[i + 1:], match, b)
+        if ret:
+            res += [cost[2] + ret]
+    return min(res) if res else 0
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#70
+
+Your task at hand is to find all the quotes in a given text. And, as per usual, do everything as quickly as possible. 😉
+You are given a string that consists of characters and a paired number of quotation marks. You need to return an 
+Iterable consisting of the texts inside the quotation marks. But choose only quotes with double quotation marks ("). 
+Single quotation marks (') aren’t appropriate.
+
+Input: A string.
+
+Output: An iterable.
+"""
+
+import re
+
+
+def find_quotes(a):
+    return re.findall(r'"(.*?)"', a)
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#71
+
+This mission is the first one of the series. Here you should find the length of the longest substring that consists of 
+the same letter. For example, line "aaabbcaaaa" contains four substrings with the same letters "aaa", "bb","c" and 
+"aaaa". The last substring is the longest one, which makes it the answer.
+
+Input: A string.
+
+Output: An int.
+"""
+
+def long_repeat(line: str) -> int:
+    """
+        length the longest substring that consists of the same char
+    """
+    if len(line) == 0:
+        return 0
+    res = 0
+    counter = 1
+    for index in range(len(line) - 1):
+        if line[index] == line[index + 1]:
+            counter += 1
+        else:
+            if counter > res:
+                res = counter
+            counter = 1
+    return res if res >= counter else counter
+
+
+""" -------------------------------------------------------------------------------------------------------------------
+
+#72
+
+
+"""
